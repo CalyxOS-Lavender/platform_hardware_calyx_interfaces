@@ -14,6 +14,7 @@ soong_namespace {
 cc_binary {
     name: "android.hardware.power-service.lineage-libperfmgr",
     defaults: [
+        "android.hardware.power-ndk_shared",
         "power_libperfmgr_defaults",
     ],
     relative_install_path: "hw",
@@ -23,9 +24,9 @@ cc_binary {
     cflags: [
         "-Wno-unused-variable",
         "-Wno-unused-parameter",
+        "-Wthread-safety",
     ],
     shared_libs: [
-        "android.hardware.power-V4-ndk",
         "libbase",
         "libbinder_ndk",
         "libcutils",
@@ -35,24 +36,36 @@ cc_binary {
         "libprocessgroup",
         "libutils",
         "pixel-power-ext-V1-ndk",
+        "android.hardware.common.fmq-V1-ndk",
+        "libfmq",
+    ],
+    static_libs: [
+        "libgmock",
+        "libgtest",
     ],
     srcs: [
+        "aidl/BackgroundWorker.cpp",
+        "aidl/GpuCalculationHelpers.cpp",
+        "aidl/GpuCapacityNode.cpp",
         "aidl/service.cpp",
         "aidl/InteractionHandler.cpp",
         "aidl/Power.cpp",
         "aidl/PowerExt.cpp",
         "aidl/PowerHintSession.cpp",
         "aidl/PowerSessionManager.cpp",
+        "aidl/UClampVoter.cpp",
+        "aidl/SessionRecords.cpp",
+        "aidl/SessionTaskMap.cpp",
+        "aidl/SessionValueEntry.cpp",
     ],
+    cpp_std: "gnu++20",
 }
 
 cc_library_static {
     name: "libperfmgr-ext",
+    defaults: ["android.hardware.power-ndk_shared"],
     vendor: true,
     srcs: [
         "aidl/PowerModeExtension.cpp",
-    ],
-    shared_libs: [
-        "android.hardware.power-V4-ndk",
     ],
 }
