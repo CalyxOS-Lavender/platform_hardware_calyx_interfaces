@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 The LineageOS Project
+ * Copyright 2024 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,23 @@
  * limitations under the License.
  */
 
-package vendor.lineage.camera.motor@1.0;
+#pragma once
 
-interface ICameraMotor {
-    onConnect(string cameraId);
-    onDisconnect(string cameraId);
+#include "AdpfTypes.h"
+
+namespace aidl::google::hardware::power::impl::pixel {
+
+class SupportManager {
+  public:
+    static SupportInfo makeSupportInfo();
+
+  private:
+    static bool getAdfpSupported();
+    static bool modeSupported(Mode);
+    static bool boostSupported(Boost);
+    static bool sessionModeSupported(SessionMode);
+    static bool sessionHintSupported(SessionHint);
+    static bool sessionTagSupported(SessionTag);
 };
+
+}  // namespace aidl::google::hardware::power::impl::pixel
